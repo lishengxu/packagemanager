@@ -2,6 +2,7 @@ package netx.com.packagemanager;
 
 import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.widget.TextView;
 
 /**
@@ -34,7 +35,24 @@ public class PackageManagerActivityTest
     }
 
     public void testPackageListNum() {
-        assertEquals(100, mActivity.getApplicationList().size());
+        assertEquals(111, mActivity.getAllPackageInfo().size());
+    }
+
+    public void testPackageListInfo() {
+        assertEquals(111, mActivity.getAllApplicationInfo().size());
+        boolean hasMM = false;
+        for (int i = 0; i != mActivity.getAllApplicationInfo().size(); ++i) {
+            if ("com.tencent.mm".equals(mActivity.getAllApplicationInfo().get(i).getPackageName())) {
+                hasMM = true;
+            }
+            Log.e("test", "packagename:" + mActivity.getAllApplicationInfo().get(i).getPackageName());
+            if ("com.sina.weibo".equals(mActivity.getAllApplicationInfo().get(i).getPackageName())) {
+                assertEquals("微博", mActivity.getAllApplicationInfo().get(i).getPackageLabel());
+            } else if ("com.tencent.mm".equals(mActivity.getAllApplicationInfo().get(i).getPackageName())) {
+                assertEquals("微信", mActivity.getAllApplicationInfo().get(i).getPackageLabel());
+            }
+        }
+        assertTrue(hasMM);
     }
 
     @Override
